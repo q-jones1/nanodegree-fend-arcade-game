@@ -58,7 +58,7 @@ Player.prototype.update = function() {
     this.y += this.dy;
     this.dy = 0;
 };
-
+// Draw the player on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -69,7 +69,7 @@ Player.prototype.handleInput = function(keyCode) {
   if (keyCode === 'up' && this.y === 63) {this.dy -= 85; player.winGame();};
 };
 
-Player.prototype.winGame = function() {setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150)};
+Player.prototype.winGame = function() {player.update(); timer1 = setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150); timer2 = setTimeout(function () {player.x = 200; player.y = 403}, 150)};
 
 Player.prototype.endGameCheck = function() {
   allEnemies.forEach(function (enemy) {
