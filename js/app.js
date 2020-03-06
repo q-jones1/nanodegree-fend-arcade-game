@@ -13,9 +13,9 @@ var Enemy = function() {
     // The image/sprite for our enemy, this uses
     // the resource.js helper to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = -50;
+    this.x = -550;
     this.y = 63;
-    this.dx = 60;
+    this.dx = 150;
     this.width = 101;
     this.height = 171;
 };
@@ -87,23 +87,48 @@ const enemy3 = new Enemy();
 const enemy4 = new Enemy();
 const enemy5 = new Enemy();
 const enemy6 = new Enemy();
+const enemy7 = new Enemy();
+const enemy8 = new Enemy();
+const enemy9 = new Enemy();
+const enemy10 = new Enemy();
+const enemy11 = new Enemy();
+const enemy12 = new Enemy();
 
-const allEnemies = [enemy1, enemy2, enemy3, enemy4];
+
+const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11, enemy12];
 const player = new Player();
 
 enemy2.x = -400;
 enemy2.y = 148;
 enemy3.x = -100;
 enemy3.y = 233;
-enemy4.x = -2300;
+enemy4.x = -2000;
 enemy4.y = 233;
 enemy4.dx = 400;
-enemy5.x = -2000;
+enemy5.x = -2300;
 enemy5.y = 233;
 enemy5.dx = 400;
-enemy6.x = -2200;
+enemy6.x = -2150;
 enemy6.y = 148;
 enemy6.dx = 300;
+enemy7.x = -1125;
+enemy7.y = 63;
+enemy7.dx = 150;
+enemy8.x = -2250;
+enemy8.y = 63;
+enemy8.dx = 300;
+enemy9.x = -3875;
+enemy9.y = 148;
+enemy9.dx = 400;
+enemy10.x = -4000;
+enemy10.y = 233;
+enemy10.dx = 400;
+enemy11.x = -4800;
+enemy11.y = 233;
+enemy11.dx = 400;
+enemy12.x = -1800;
+enemy12.y = 63;
+enemy12.dx = 150;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
