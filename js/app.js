@@ -29,9 +29,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    player.endGameCheck();
+    PLAYER.endGameCheck();
     this.x += this.dx * dt;
-    if (this.x > 505 + this.width/2) {this.x = this.xOrig};
+    if (this.x > 505 + this.width/2) {
+      this.x = this.xOrig
+    };
 };
 
 // Draw the enemy on the screen, required method for game
@@ -67,21 +69,43 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function(keyCode) {
-  if (keyCode === 'left' && this.x > 0) {this.dx -= 100} if (keyCode === 'right' && this.x < 400) {this.dx += 100}
-  if (keyCode === 'up' && this.y > 63) {this.dy -= 85} if (keyCode === 'down' && this.y < 400) {this.dy += 85}
-  if (keyCode === 'up' && this.y === 63) {this.dy -= 85; player.winGame();};
+// Handle keyboard input to move the player on the screen, required method for game
+Player.prototype.handleInput = function(ALLOWED_KEYS) {
+  if (ALLOWED_KEYS === 'left' && this.x > 0) {
+    this.dx -= 100
+  }
+  if (ALLOWED_KEYS === 'right' && this.x < 400) {
+    this.dx += 100
+  }
+  if (ALLOWED_KEYS === 'up' && this.y > 63) {
+    this.dy -= 85
+  }
+  if (ALLOWED_KEYS === 'down' && this.y < 400) {
+    this.dy += 85
+  }
+  if (ALLOWED_KEYS === 'up' && this.y === 63) {
+    this.dy -= 85;
+    PLAYER.winGame();
+  };
 };
 
-Player.prototype.winGame = function() {player.update(); timer1 = setTimeout(function () {openWinScreen()}, 150)};
+// Produce a Winning Screen prompt when the player reaches the water
+Player.prototype.winGame = function() {
+  PLAYER.update();
+  timer1 = setTimeout(function () {
+    OPEN_WINSCREEN()}, 150)
+};
 
+// Check for collisions between the player and enemies and reset the player to the start position if so
 Player.prototype.endGameCheck = function() {
-  allEnemies.forEach(function (enemy) {
-    if (enemy.y === player.y && enemy.x < player.x + (player.width - 15) && enemy.x + (enemy.width - 15) > player.x && enemy.y < player.y + player.height && enemy.y + enemy.height > player.y) {enemy.x -= 250; player.x = 200; player.y = 403}
+  ALL_ENEMIES.forEach(function (enemy) {
+    if (enemy.y === PLAYER.y && enemy.x < PLAYER.x + (PLAYER.width - 15) && enemy.x + (enemy.width - 15) > PLAYER.x && enemy.y < PLAYER.y + PLAYER.height && enemy.y + enemy.height > PLAYER.y) {
+      enemy.x -= 250; PLAYER.x = 200; PLAYER.y = 403
+    }
   });
 };
 
-// when this constructor is called it creates the winning screen object which can then have open and close methods called.
+// When this constructor is called it creates the winning screen object which can then have open and close methods called accordingly.
 class WinScreen {
   constructor(overlay) {
     this.overlay = overlay;
@@ -94,7 +118,7 @@ class WinScreen {
 
   close() {
     this.overlay.classList.add('is-hidden');
-    player.x = 200; player.y = 403;
+    PLAYER.x = 200; PLAYER.y = 403;
   }
 }
 
@@ -123,39 +147,39 @@ function createWinScreen() {
   document.body.appendChild(fragment);
 }
 
-createWinScreen();
 /* Now instantiate your objects.
   Place all enemy objects in an array called allEnemies
   Place the player object in a variable called player */
+const ENEMY_1 = new Enemy(-550, -550, 63, 150);
+const ENEMY_2 = new Enemy(-400, -400, 148, 150);
+const ENEMY_3 = new Enemy(-100, -100, 233, 150);
+const ENEMY_4 = new Enemy(-2000, -2000, 233, 400);
+const ENEMY_5 = new Enemy(-2300, -2300, 233, 400);
+const ENEMY_6 = new Enemy(-2150, -2150, 148, 300);
+const ENEMY_7 = new Enemy(-1125, -1125, 63, 150);
+const ENEMY_8 = new Enemy(-2250, -2250, 63, 300);
+const ENEMY_9 = new Enemy(-3875, -3875, 148, 400);
+const ENEMY_10 = new Enemy(-4000, -4000, 233, 400);
+const ENEMY_11 = new Enemy(-4800, -4800, 233, 400);
+const ENEMY_12 = new Enemy(-1800, -1800, 63, 150);
 
-  const enemy1 = new Enemy(-550, -550, 63, 150);
-  const enemy2 = new Enemy(-400, -400, 148, 150);
-  const enemy3 = new Enemy(-100, -100, 233, 150);
-  const enemy4 = new Enemy(-2000, -2000, 233, 400);
-  const enemy5 = new Enemy(-2300, -2300, 233, 400);
-  const enemy6 = new Enemy(-2150, -2150, 148, 300);
-  const enemy7 = new Enemy(-1125, -1125, 63, 150);
-  const enemy8 = new Enemy(-2250, -2250, 63, 300);
-  const enemy9 = new Enemy(-3875, -3875, 148, 400);
-  const enemy10 = new Enemy(-4000, -4000, 233, 400);
-  const enemy11 = new Enemy(-4800, -4800, 233, 400);
-  const enemy12 = new Enemy(-1800, -1800, 63, 150);
+const ALL_ENEMIES = [ENEMY_1, ENEMY_2, ENEMY_3, ENEMY_4, ENEMY_5, ENEMY_6, ENEMY_7, ENEMY_8, ENEMY_9, ENEMY_10, ENEMY_11, ENEMY_12];
+const PLAYER = new Player();
 
-const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11, enemy12];
-const player = new Player();
+const CREATE_WINSCREEN = createWinScreen();
+// Calls the constructor to create a new object and finds the modal overlay section to pass in.
+const FIND_WINSCREEN = new WinScreen(document.querySelector('.modal-overlay'));
+const OPEN_WINSCREEN = FIND_WINSCREEN.open.bind(FIND_WINSCREEN);
 
-const winscreen = new WinScreen(document.querySelector('.modal-overlay'));
-openWinScreen = winscreen.open.bind(winscreen);
-//window.openModal = winscreen.open.bind(winscreen);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    const ALLOWED_KEYS = {
         37: 'left',
         38: 'up',
         39: 'right',
         40: 'down'
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    PLAYER.handleInput(ALLOWED_KEYS[e.keyCode]);
 });
