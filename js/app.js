@@ -55,9 +55,13 @@ Player.prototype.render = function() {
 
 Player.prototype.handleInput = function(keyCode) {
   if (keyCode === 'left' && this.x > 0) {this.x -= 100} if (keyCode === 'right' && this.x < 400) {this.x += 100}
-  if (keyCode === 'up' && this.y > 0) {this.y -= 90} if (keyCode === 'down' && this.y < 400) {this.y += 90}
+  if (keyCode === 'up' && this.y > 0) {this.y -= 90} if (keyCode === 'down' && this.y < 400) {this.y += 90};
+  player.winGameCheck();
 };
 
+Player.prototype.winGameCheck = function() {
+  if (this.y === -47) {setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150)} else {};
+};
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -67,6 +71,9 @@ const enemy3 = new Enemy();
 const enemy4 = new Enemy();
 const enemy5 = new Enemy();
 const enemy6 = new Enemy();
+
+const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
+const player = new Player();
 
 enemy2.x = -400;
 enemy2.y = 145;
@@ -81,9 +88,6 @@ enemy5.dx = 400;
 enemy6.x = -2200;
 enemy6.y = 145;
 enemy6.dx = 300;
-
-const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
-const player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
