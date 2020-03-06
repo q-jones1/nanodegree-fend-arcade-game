@@ -4,7 +4,9 @@
     https://stackoverflow.com/questions/13916966/adding-collision-detection-to-images-drawn-on-canvas) - for base learning collision detection techniques.
     https://stackoverflow.blog/2009/06/25/attribution-required/
     question author ©
-    User:[Noble-Surfer](https://stackoverflow.com/users/1841758/noble-surfer), answer author © User:[Ben](https://stackoverflow.com/users/1745309/ben) / stackoverflow / CC-BY-SA-4.0 International - (udacity supplied link for the project)
+    User:[Noble-Surfer](https://stackoverflow.com/users/1841758/noble-surfer), answer author © User:[Ben](https://stackoverflow.com/users/1745309/ben) / stackoverflow / CC-BY-SA-4.0 International - (udacity supplied link for the project).
+    https://lowrey.me/modals-in-pure-es6-javascript/ - (udacity supplied link for the project) - for base learning on simple modal creation.
+    (Content at the mozilla and lowrey links were listed as public domain.)
 */
 
 // Enemies our player must avoid
@@ -71,7 +73,7 @@ Player.prototype.handleInput = function(keyCode) {
   if (keyCode === 'up' && this.y === 63) {this.dy -= 85; player.winGame();};
 };
 
-Player.prototype.winGame = function() {player.update(); timer1 = setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150); timer2 = setTimeout(function () {player.x = 200; player.y = 403}, 150)};
+Player.prototype.winGame = function() {player.update(); timer1 = setTimeout(function () {openWinScreen()}, 150)};
 
 Player.prototype.endGameCheck = function() {
   allEnemies.forEach(function (enemy) {
@@ -79,6 +81,49 @@ Player.prototype.endGameCheck = function() {
   });
 };
 
+// when this constructor is called it creates the winning screen object which can then have open and close methods called.
+class WinScreen {
+  constructor(overlay) {
+    this.overlay = overlay;
+    const restartButton = overlay.querySelector('.restart-button')
+    restartButton.addEventListener('click', this.close.bind(this));
+  }
+  open() {
+    this.overlay.classList.remove('is-hidden');
+  }
+
+  close() {
+    this.overlay.classList.add('is-hidden');
+    player.x = 200; player.y = 403;
+  }
+}
+
+// Create the html for the winning screen to be ready
+function createWinScreen() {
+  const fragment = document.createDocumentFragment();
+
+    const DIV1 = document.createElement('div');
+    DIV1.classList.add('is-hidden','modal-overlay');
+    const DIV2 = document.createElement('div');
+    DIV2.classList.add('modal');
+    const P1 = document.createElement('p');
+    P1.innerHTML = 'YOU WIN - Congratulations !!';
+    const P2 = document.createElement('p');
+    P2.innerHTML = 'Please click the restart button for another game !';
+    const BUTTON1 = document.createElement('button');
+    BUTTON1.classList.add('restart-button');
+    BUTTON1.innerHTML = 'Restart';
+
+    DIV1.appendChild(DIV2);
+    DIV2.appendChild(P1);
+    DIV2.appendChild(P2);
+    DIV2.appendChild(BUTTON1);
+    fragment.appendChild(DIV1);
+
+  document.body.appendChild(fragment);
+}
+
+createWinScreen();
 /* Now instantiate your objects.
   Place all enemy objects in an array called allEnemies
   Place the player object in a variable called player */
@@ -96,10 +141,12 @@ Player.prototype.endGameCheck = function() {
   const enemy11 = new Enemy(-4800, -4800, 233, 400);
   const enemy12 = new Enemy(-1800, -1800, 63, 150);
 
-
 const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11, enemy12];
 const player = new Player();
 
+const winscreen = new WinScreen(document.querySelector('.modal-overlay'));
+openWinScreen = winscreen.open.bind(winscreen);
+//window.openModal = winscreen.open.bind(winscreen);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
