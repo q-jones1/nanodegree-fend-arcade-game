@@ -1,6 +1,10 @@
 /*
     Attribution to the following reference sites:
     https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript - for base learning of the canvas + 2d context drawing tool and how movement is done etc in a game.
+    https://stackoverflow.com/questions/13916966/adding-collision-detection-to-images-drawn-on-canvas) - for base learning collision detection techniques.
+    https://stackoverflow.blog/2009/06/25/attribution-required/
+    question author ©
+    User:[Noble-Surfer](https://stackoverflow.com/users/1841758/noble-surfer), answer author © User:[Ben](https://stackoverflow.com/users/1745309/ben) / stackoverflow / CC-BY-SA-4.0 International - (udacity supplied link for the project)
 */
 
 // Enemies our player must avoid
@@ -9,9 +13,11 @@ var Enemy = function() {
     // The image/sprite for our enemy, this uses
     // the resource.js helper to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = -600;
-    this.y = 60;
-    this.dx = 150;
+    this.x = -50;
+    this.y = 63;
+    this.dx = 60;
+    this.width = 101;
+    this.height = 171;
 };
 
 // Update the enemy's position, required method for game
@@ -20,14 +26,14 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += this.dx * dt
+    player.endGameCheck();
+    this.x += this.dx * dt;
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -39,6 +45,8 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 403;
+    this.width = 101;
+    this.height = 171;
 };
 
 // Update the player's position, required method for game
@@ -55,16 +63,24 @@ Player.prototype.render = function() {
 
 Player.prototype.handleInput = function(keyCode) {
   if (keyCode === 'left' && this.x > 0) {this.x -= 100} if (keyCode === 'right' && this.x < 400) {this.x += 100}
-  if (keyCode === 'up' && this.y > 0) {this.y -= 90} if (keyCode === 'down' && this.y < 400) {this.y += 90};
+  if (keyCode === 'up' && this.y > 0) {this.y -= 85} if (keyCode === 'down' && this.y < 400) {this.y += 85};
   player.winGameCheck();
 };
 
 Player.prototype.winGameCheck = function() {
-  if (this.y === -47) {setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150)} else {};
+  if (this.y === -22) {setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150)} else {};
 };
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+
+Player.prototype.endGameCheck = function() {
+  allEnemies.forEach(function (enemy) {
+    if (enemy.y === player.y && enemy.x < player.x + (player.width - 15) && enemy.x + (enemy.width - 15) > player.x && enemy.y < player.y + player.height && enemy.y + enemy.height > player.y) {alert('Game Over !'); enemy.x -= 250; player.x = 200; player.y = 403}
+  });
+};
+
+/* Now instantiate your objects.
+  Place all enemy objects in an array called allEnemies
+  Place the player object in a variable called player */
+
 const enemy1 = new Enemy();
 const enemy2 = new Enemy();
 const enemy3 = new Enemy();
@@ -72,21 +88,21 @@ const enemy4 = new Enemy();
 const enemy5 = new Enemy();
 const enemy6 = new Enemy();
 
-const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
+const allEnemies = [enemy1, enemy2, enemy3, enemy4];
 const player = new Player();
 
 enemy2.x = -400;
-enemy2.y = 145;
+enemy2.y = 148;
 enemy3.x = -100;
-enemy3.y = 230;
+enemy3.y = 233;
 enemy4.x = -2300;
-enemy4.y = 230;
+enemy4.y = 233;
 enemy4.dx = 400;
 enemy5.x = -2000;
-enemy5.y = 230;
+enemy5.y = 233;
 enemy5.dx = 400;
 enemy6.x = -2200;
-enemy6.y = 145;
+enemy6.y = 148;
 enemy6.dx = 300;
 
 // This listens for key presses and sends the keys to your
