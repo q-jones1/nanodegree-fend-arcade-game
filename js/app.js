@@ -75,7 +75,7 @@ Player.prototype.winGame = function() {player.update(); timer1 = setTimeout(func
 
 Player.prototype.endGameCheck = function() {
   allEnemies.forEach(function (enemy) {
-    if (enemy.y === player.y && enemy.x < player.x + (player.width - 15) && enemy.x + (enemy.width - 15) > player.x && enemy.y < player.y + player.height && enemy.y + enemy.height > player.y) {alert('Game Over !'); enemy.x -= 250; player.x = 200; player.y = 403}
+    if (enemy.y === player.y && enemy.x < player.x + (player.width - 15) && enemy.x + (enemy.width - 15) > player.x && enemy.y < player.y + player.height && enemy.y + enemy.height > player.y) {enemy.x -= 250; player.x = 200; player.y = 403}
   });
 };
 
@@ -95,6 +95,7 @@ Player.prototype.endGameCheck = function() {
   const enemy10 = new Enemy(-4000, -4000, 233, 400);
   const enemy11 = new Enemy(-4800, -4800, 233, 400);
   const enemy12 = new Enemy(-1800, -1800, 63, 150);
+
 
 const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11, enemy12];
 const player = new Player();
