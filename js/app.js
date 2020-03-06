@@ -10,7 +10,7 @@
 */
 
 // Enemies our player must avoid
-var Enemy = function(x, xOrig, y, dx) {
+const Enemy = function(x, xOrig, y, dx) {
     // Variables applied to each of our instances go here,
     // The image/sprite for our enemy, this uses
     // the resource.js helper to easily load images
@@ -44,7 +44,7 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function() {
+const Player = function() {
     // Variables applied to each of our instances go here,
     // The image/sprite for our player, this uses
     // the resource.js helper to easily load images
@@ -91,6 +91,9 @@ Player.prototype.handleInput = function(ALLOWED_KEYS) {
 
 // Produce a Winning Screen prompt when the player reaches the water
 Player.prototype.winGame = function() {
+  // Calls the constructor to create a new object and finds the modal overlay section to pass in.
+  const FIND_WINSCREEN = new WinScreen(document.querySelector('.modal-overlay'));
+  const OPEN_WINSCREEN = FIND_WINSCREEN.open.bind(FIND_WINSCREEN);
   PLAYER.update();
   timer1 = setTimeout(function () {
     OPEN_WINSCREEN()}, 150)
@@ -105,22 +108,26 @@ Player.prototype.endGameCheck = function() {
   });
 };
 
-// When this constructor is called it creates the winning screen object which can then have open and close methods called accordingly.
-class WinScreen {
-  constructor(overlay) {
-    this.overlay = overlay;
-    const restartButton = overlay.querySelector('.restart-button')
-    restartButton.addEventListener('click', this.close.bind(this));
-  }
-  open() {
-    this.overlay.classList.remove('is-hidden');
-  }
+/* Now instantiate your objects.
+  Place all enemy objects in an array called allEnemies
+  Place the player object in a variable called player */
+const ENEMY_1 = new Enemy(-550, -550, 63, 150);
+const ENEMY_2 = new Enemy(-400, -400, 148, 150);
+const ENEMY_3 = new Enemy(-100, -100, 233, 150);
+const ENEMY_4 = new Enemy(-2000, -2000, 233, 400);
+const ENEMY_5 = new Enemy(-2300, -2300, 233, 400);
+const ENEMY_6 = new Enemy(-2150, -2150, 148, 300);
+const ENEMY_7 = new Enemy(-1125, -1125, 63, 150);
+const ENEMY_8 = new Enemy(-2250, -2250, 63, 300);
+const ENEMY_9 = new Enemy(-3875, -3875, 148, 400);
+const ENEMY_10 = new Enemy(-4000, -4000, 233, 400);
+const ENEMY_11 = new Enemy(-4800, -4800, 233, 400);
+const ENEMY_12 = new Enemy(-1800, -1800, 63, 150);
 
-  close() {
-    this.overlay.classList.add('is-hidden');
-    PLAYER.x = 200; PLAYER.y = 403;
-  }
-}
+const ALL_ENEMIES = [ENEMY_1, ENEMY_2, ENEMY_3, ENEMY_4, ENEMY_5, ENEMY_6, ENEMY_7, ENEMY_8, ENEMY_9, ENEMY_10, ENEMY_11, ENEMY_12];
+const PLAYER = new Player();
+
+const CREATE_WINSCREEN = createWinScreen();
 
 // Create the html for the winning screen to be ready
 function createWinScreen() {
@@ -147,29 +154,22 @@ function createWinScreen() {
   document.body.appendChild(fragment);
 }
 
-/* Now instantiate your objects.
-  Place all enemy objects in an array called allEnemies
-  Place the player object in a variable called player */
-const ENEMY_1 = new Enemy(-550, -550, 63, 150);
-const ENEMY_2 = new Enemy(-400, -400, 148, 150);
-const ENEMY_3 = new Enemy(-100, -100, 233, 150);
-const ENEMY_4 = new Enemy(-2000, -2000, 233, 400);
-const ENEMY_5 = new Enemy(-2300, -2300, 233, 400);
-const ENEMY_6 = new Enemy(-2150, -2150, 148, 300);
-const ENEMY_7 = new Enemy(-1125, -1125, 63, 150);
-const ENEMY_8 = new Enemy(-2250, -2250, 63, 300);
-const ENEMY_9 = new Enemy(-3875, -3875, 148, 400);
-const ENEMY_10 = new Enemy(-4000, -4000, 233, 400);
-const ENEMY_11 = new Enemy(-4800, -4800, 233, 400);
-const ENEMY_12 = new Enemy(-1800, -1800, 63, 150);
+// When this constructor is called it creates the winning screen object which can then have open and close methods called accordingly.
+class WinScreen {
+  constructor(overlay) {
+    this.overlay = overlay;
+    const restartButton = overlay.querySelector('.restart-button')
+    restartButton.addEventListener('click', this.close.bind(this));
+  }
+  open() {
+    this.overlay.classList.remove('is-hidden');
+  }
 
-const ALL_ENEMIES = [ENEMY_1, ENEMY_2, ENEMY_3, ENEMY_4, ENEMY_5, ENEMY_6, ENEMY_7, ENEMY_8, ENEMY_9, ENEMY_10, ENEMY_11, ENEMY_12];
-const PLAYER = new Player();
-
-const CREATE_WINSCREEN = createWinScreen();
-// Calls the constructor to create a new object and finds the modal overlay section to pass in.
-const FIND_WINSCREEN = new WinScreen(document.querySelector('.modal-overlay'));
-const OPEN_WINSCREEN = FIND_WINSCREEN.open.bind(FIND_WINSCREEN);
+  close() {
+    this.overlay.classList.add('is-hidden');
+    PLAYER.x = 200; PLAYER.y = 403;
+  }
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
