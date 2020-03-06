@@ -40,21 +40,23 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function() {
     // Variables applied to each of our instances go here,
-    // The image/sprite for our enemy, this uses
+    // The image/sprite for our player, this uses
     // the resource.js helper to easily load images
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 403;
+    this.dx = 0;
+    this.dy = 0;
     this.width = 101;
     this.height = 171;
 };
 
 // Update the player's position, required method for game
-// Parameter: dt, a time delta between ticks
-Player.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+Player.prototype.update = function() {
+    this.x += this.dx;
+    this.dx = 0;
+    this.y += this.dy;
+    this.dy = 0;
 };
 
 Player.prototype.render = function() {
@@ -62,14 +64,12 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(keyCode) {
-  if (keyCode === 'left' && this.x > 0) {this.x -= 100} if (keyCode === 'right' && this.x < 400) {this.x += 100}
-  if (keyCode === 'up' && this.y > 0) {this.y -= 85} if (keyCode === 'down' && this.y < 400) {this.y += 85};
-  player.winGameCheck();
+  if (keyCode === 'left' && this.x > 0) {this.dx -= 100} if (keyCode === 'right' && this.x < 400) {this.dx += 100}
+  if (keyCode === 'up' && this.y > 63) {this.dy -= 85} if (keyCode === 'down' && this.y < 400) {this.dy += 85}
+  if (keyCode === 'up' && this.y === 63) {this.dy -= 85; player.winGame();};
 };
 
-Player.prototype.winGameCheck = function() {
-  if (this.y === -22) {setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150)} else {};
-};
+Player.prototype.winGame = function() {setTimeout(function () {alert('YOU WIN - Congratulations !!')}, 150)};
 
 Player.prototype.endGameCheck = function() {
   allEnemies.forEach(function (enemy) {
