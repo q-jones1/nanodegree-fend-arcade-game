@@ -53,9 +53,9 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function() {
-  if (keyCode === 'left') {this.x = -1} if (keyCode === 'right') {this.x = +1}
-  if (keyCode === 'up') {this.y = +1} if (keyCode === 'down') {this.y = -1}
+Player.prototype.handleInput = function(keyCode) {
+  if (keyCode === 'left') {this.x -= 100} if (keyCode === 'right') {this.x += 100}
+  if (keyCode === 'up') {this.y -= 90} if (keyCode === 'down') {this.y += 90}
 };
 
 // Now instantiate your objects.
