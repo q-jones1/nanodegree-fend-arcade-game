@@ -8,14 +8,15 @@
 */
 
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, xOrig, y, dx) {
     // Variables applied to each of our instances go here,
     // The image/sprite for our enemy, this uses
     // the resource.js helper to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = -550;
-    this.y = 63;
-    this.dx = 150;
+    this.xOrig = xOrig;
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
     this.width = 101;
     this.height = 171;
 };
@@ -28,6 +29,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     player.endGameCheck();
     this.x += this.dx * dt;
+    if (this.x > 505 + this.width/2) {this.x = this.xOrig};
 };
 
 // Draw the enemy on the screen, required method for game
@@ -81,54 +83,21 @@ Player.prototype.endGameCheck = function() {
   Place all enemy objects in an array called allEnemies
   Place the player object in a variable called player */
 
-const enemy1 = new Enemy();
-const enemy2 = new Enemy();
-const enemy3 = new Enemy();
-const enemy4 = new Enemy();
-const enemy5 = new Enemy();
-const enemy6 = new Enemy();
-const enemy7 = new Enemy();
-const enemy8 = new Enemy();
-const enemy9 = new Enemy();
-const enemy10 = new Enemy();
-const enemy11 = new Enemy();
-const enemy12 = new Enemy();
-
+  const enemy1 = new Enemy(-550, -550, 63, 150);
+  const enemy2 = new Enemy(-400, -400, 148, 150);
+  const enemy3 = new Enemy(-100, -100, 233, 150);
+  const enemy4 = new Enemy(-2000, -2000, 233, 400);
+  const enemy5 = new Enemy(-2300, -2300, 233, 400);
+  const enemy6 = new Enemy(-2150, -2150, 148, 300);
+  const enemy7 = new Enemy(-1125, -1125, 63, 150);
+  const enemy8 = new Enemy(-2250, -2250, 63, 300);
+  const enemy9 = new Enemy(-3875, -3875, 148, 400);
+  const enemy10 = new Enemy(-4000, -4000, 233, 400);
+  const enemy11 = new Enemy(-4800, -4800, 233, 400);
+  const enemy12 = new Enemy(-1800, -1800, 63, 150);
 
 const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8, enemy9, enemy10, enemy11, enemy12];
 const player = new Player();
-
-enemy2.x = -400;
-enemy2.y = 148;
-enemy3.x = -100;
-enemy3.y = 233;
-enemy4.x = -2000;
-enemy4.y = 233;
-enemy4.dx = 400;
-enemy5.x = -2300;
-enemy5.y = 233;
-enemy5.dx = 400;
-enemy6.x = -2150;
-enemy6.y = 148;
-enemy6.dx = 300;
-enemy7.x = -1125;
-enemy7.y = 63;
-enemy7.dx = 150;
-enemy8.x = -2250;
-enemy8.y = 63;
-enemy8.dx = 300;
-enemy9.x = -3875;
-enemy9.y = 148;
-enemy9.dx = 400;
-enemy10.x = -4000;
-enemy10.y = 233;
-enemy10.dx = 400;
-enemy11.x = -4800;
-enemy11.y = 233;
-enemy11.dx = 400;
-enemy12.x = -1800;
-enemy12.y = 63;
-enemy12.dx = 150;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
