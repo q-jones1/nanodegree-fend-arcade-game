@@ -1,4 +1,4 @@
-/*
+/*  29/07/19
     Attribution to the following reference sites:
     https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript - for base learning of the canvas + 2d context drawing tool and how movement is done etc in a game.
     https://stackoverflow.com/questions/13916966/adding-collision-detection-to-images-drawn-on-canvas) - for base learning collision detection techniques.
@@ -37,7 +37,8 @@ const Player = function() {
     this.height = 171;
 };
 
-// Creates the enemy and player instances, which will be called from both app.js and engine.js
+/* Creates the enemy and player instances, which will be called from
+   both app.js and engine.js */
 const ENEMY_1 = new Enemy(-550, -550, 63, 150);
 const ENEMY_2 = new Enemy(-400, -400, 148, 150);
 const ENEMY_3 = new Enemy(-100, -100, 233, 150);
@@ -63,7 +64,7 @@ const CREATE_WINSCREEN = createWinScreen();
    you should multiply any movement by the dt parameter (passed in from engine.js)
    which will ensure the game runs at the same speed for all computers.*/
 Enemy.prototype.update = function(dt) {
-    PLAYER.endGameCheck();
+    this.endGameCheck();
     this.x += this.dx * dt;
     if (this.x > 505 + this.width/2) {
       this.x = this.xOrig
@@ -73,6 +74,14 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+/* Check for collisions between the player and enemies and reset the player
+   to the start position if so. */
+Enemy.prototype.endGameCheck = function() {
+    if (this.y === PLAYER.y && this.x < PLAYER.x + (PLAYER.width - 15) && this.x + (this.width - 15) > PLAYER.x && this.y < PLAYER.y + PLAYER.height && this.y + this.height > PLAYER.y) {
+      this.x -= 250; PLAYER.x = 200; PLAYER.y = 403
+    }
 };
 
 // Updates the player's position, (called via engine.js).
@@ -118,16 +127,6 @@ Player.prototype.winGame = function() {
   PLAYER.update();
   timer1 = setTimeout(function () {
     OPEN_WINSCREEN()}, 150)
-};
-
-/* Check for collisions between the player and enemies and reset the player
-   to the start position if so. */
-Player.prototype.endGameCheck = function() {
-  ALL_ENEMIES.forEach(function (enemy) {
-    if (enemy.y === PLAYER.y && enemy.x < PLAYER.x + (PLAYER.width - 15) && enemy.x + (enemy.width - 15) > PLAYER.x && enemy.y < PLAYER.y + PLAYER.height && enemy.y + enemy.height > PLAYER.y) {
-      enemy.x -= 250; PLAYER.x = 200; PLAYER.y = 403
-    }
-  });
 };
 
 // Create the html for the winning screen to be ready.
