@@ -1,12 +1,17 @@
+/*
+    Attribution to the following reference sites:
+    https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript - for base learning of the canvas + 2d context drawing tool and how movement is done etc in a game.
+*/
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // The image/sprite for our enemy, this uses
     // the resource.js helper to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = 0;
-    this.y = 151;
-    this.dx = 2;
+    this.x = -600;
+    this.y = 60;
+    this.dx = 150;
 };
 
 // Update the enemy's position, required method for game
@@ -32,9 +37,8 @@ var Player = function() {
     // The image/sprite for our enemy, this uses
     // the resource.js helper to easily load images
     this.sprite = 'images/char-boy.png';
-    this.x = 0;
-    this.y = 303;
-    this.dx = 252;
+    this.x = 200;
+    this.y = 403;
 };
 
 // Update the player's position, required method for game
@@ -49,7 +53,7 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.handleInput = function() {
+Player.prototype.handleInput = function() {
   if (keyCode === 'left') {this.x = -1} if (keyCode === 'right') {this.x = +1}
   if (keyCode === 'up') {this.y = +1} if (keyCode === 'down') {this.y = -1}
 };
@@ -60,9 +64,26 @@ Player.handleInput = function() {
 const enemy1 = new Enemy();
 const enemy2 = new Enemy();
 const enemy3 = new Enemy();
+const enemy4 = new Enemy();
+const enemy5 = new Enemy();
+const enemy6 = new Enemy();
 
-const allEnemies = [enemy1, enemy2, enemy3];
-var player = new Player();
+enemy2.x = -400;
+enemy2.y = 145;
+enemy3.x = -100;
+enemy3.y = 230;
+enemy4.x = -2300;
+enemy4.y = 230;
+enemy4.dx = 400;
+enemy5.x = -2000;
+enemy5.y = 230;
+enemy5.dx = 400;
+enemy6.x = -2200;
+enemy6.y = 145;
+enemy6.dx = 300;
+
+const allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6];
+const player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
